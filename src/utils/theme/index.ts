@@ -2,7 +2,7 @@ import {StyleSheet} from 'react-native';
 import {DefaultTheme} from 'react-native-paper';
 
 const Colors = {
-  primary: '#e59358',
+  primary: '#ed8153',
   accent: '#ff5722',
   tertiary: '#',
   white: '#ffffff',
@@ -25,6 +25,13 @@ const globalStyles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: Colors.white,
+  },
+
+  logo: {
+    height: 80,
+    width: '100%',
+    resizeMode: 'contain',
+    justifyContent: 'center',
   },
 });
 

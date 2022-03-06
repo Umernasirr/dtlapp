@@ -8,7 +8,7 @@ import useAuth from '../../hooks/useAuth/useAuth';
 import {useNavigation} from '@react-navigation/native';
 import {TouchableRipple} from 'react-native-paper';
 
-const Login = () => {
+const Signup = () => {
   const {checkToken} = useAuth();
 
   const navigation = useNavigation();
@@ -21,11 +21,6 @@ const Login = () => {
     });
   }, [checkToken, navigation]);
 
-  const handleSignup = () => {
-    // @ts-ignore
-    navigation.navigate('Signup');
-  };
-
   return (
     <SafeAreaView style={styles.authContainer}>
       <Image
@@ -34,7 +29,7 @@ const Login = () => {
       />
       <Spacer />
 
-      <Text style={styles.heading}>Login</Text>
+      <Text style={styles.heading}>Signup</Text>
 
       <BigSpacer />
 
@@ -42,14 +37,17 @@ const Login = () => {
 
       <Spacer />
 
-      <TouchableRipple style={styles.buttonWhite} onPress={handleSignup}>
-        <Text>Sign Up</Text>
+      <TouchableRipple
+        style={styles.buttonWhite}
+        // @ts-ignore
+        onPress={() => navigation.navigate('Login')}>
+        <Text>Back to Login</Text>
       </TouchableRipple>
     </SafeAreaView>
   );
 };
 
-export default Login;
+export default Signup;
 
 const styles = StyleSheet.create({
   authContainer: {
