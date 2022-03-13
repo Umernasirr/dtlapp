@@ -8,6 +8,8 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 
 import {Colors} from '../../utils/theme';
 import Signup from '../Signup';
+import Transactions from '../Transactions';
+import AvailCode from '../AvailCode';
 
 const AppNavigator = () => {
   const AuthTab = createNativeStackNavigator();
@@ -30,7 +32,7 @@ const AppNavigator = () => {
       />
       <BottomTab.Screen
         name="Scan Code"
-        component={Dashboard}
+        component={AvailCode}
         options={{
           tabBarIcon: ({color}) => (
             <AntDesign color={color} size={25} name={'barcode'} />
@@ -38,8 +40,8 @@ const AppNavigator = () => {
         }}
       />
       <BottomTab.Screen
-        name="History"
-        component={Dashboard}
+        name="Transactions"
+        component={Transactions}
         options={{
           tabBarIcon: ({color}) => (
             <MaterialIcons color={color} size={25} name={'history'} />

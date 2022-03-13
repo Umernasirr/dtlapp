@@ -80,11 +80,11 @@ const Form = () => {
           onChangeText={formik.handleChange('password')}
           style={styles.input}
           placeholder="Password"
-          secureTextEntry={showPassword}
+          secureTextEntry={!showPassword}
         />
 
         <FeatherIcon
-          name={showPassword ? 'eye' : 'eye-off'}
+          name={!showPassword ? 'eye' : 'eye-off'}
           size={20}
           style={styles.inputAdornment}
           onPress={() => setShowPassword(!showPassword)}

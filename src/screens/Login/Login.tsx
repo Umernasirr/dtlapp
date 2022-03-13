@@ -16,7 +16,7 @@ const Login = () => {
     checkToken().then(isLoggedIn => {
       if (isLoggedIn) {
         // @ts-ignore
-        // navigation.navigate('Home');
+        navigation.navigate('Home');
       }
     });
   }, [checkToken, navigation]);

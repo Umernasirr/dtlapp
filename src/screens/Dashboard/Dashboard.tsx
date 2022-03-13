@@ -5,10 +5,11 @@ import BigSpacer from '../../components/BigSpacer';
 import {Colors, globalStyles} from '../../utils/theme';
 import Spacer from '../../components/Spacer';
 import {TouchableRipple} from 'react-native-paper';
+import TransactionHistory from '../../components/TransactionHistory';
 const Dashboard = () => {
   return (
-    <SafeAreaView style={styles.dashboardContainer}>
-      <BigSpacer />
+    <SafeAreaView style={globalStyles.container}>
+      <Spacer />
       <Image
         source={require('../../../assets/images/dtl-logo.png')}
         style={globalStyles.logo}
@@ -18,17 +19,15 @@ const Dashboard = () => {
       <Text style={styles.dashboardName}>
         Hi User, welcome to the DTL Ledger App
       </Text>
-      <BigSpacer />
+      <Spacer />
 
       <View style={styles.dashboardWrapper}>
-        <Spacer />
-
-        <Text style={styles.dashboardHeading}>12,670 PKR</Text>
-        <Text style={styles.dashboardSubHeading}>Total Earnings</Text>
+        <Text style={styles.dashboardHeading}>100 PKR</Text>
+        <Text style={styles.dashboardSubHeading}>Total Balance</Text>
         <BigSpacer />
       </View>
 
-      <BigSpacer />
+      <Spacer />
 
       <View style={styles.buttonWrapper}>
         <TouchableRipple style={styles.buttonPrimary} onPress={() => {}}>
@@ -36,12 +35,12 @@ const Dashboard = () => {
         </TouchableRipple>
       </View>
 
-      <BigSpacer />
+      <Spacer />
 
-      <View style={styles.buttonWrapper}>
-        <TouchableRipple style={styles.buttonWhite} onPress={() => {}}>
-          <Text style={styles.buttonWhiteText}>View History</Text>
-        </TouchableRipple>
+      <View style={styles.historyWrapper}>
+        <Text style={styles.heading}>Transaction History</Text>
+        <Spacer />
+        <TransactionHistory />
       </View>
     </SafeAreaView>
   );
@@ -50,12 +49,10 @@ const Dashboard = () => {
 export default Dashboard;
 
 const styles = StyleSheet.create({
-  dashboardContainer: {
-    flex: 1,
-  },
   dashboardName: {
     marginHorizontal: '5%',
-    fontSize: 24,
+    marginRight: '20%',
+    fontSize: 20,
     fontWeight: '500',
   },
 
@@ -68,7 +65,7 @@ const styles = StyleSheet.create({
 
   dashboardHeading: {
     textAlign: 'center',
-    fontSize: 42,
+    fontSize: 36,
     fontWeight: 'bold',
     color: Colors.primary,
     paddingVertical: 4,
@@ -85,9 +82,23 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
 
+  historyWrapper: {
+    backgroundColor: '#fdfdfd',
+    elevation: 1,
+    flex: 0.9,
+    marginHorizontal: '5%',
+    padding: 10,
+    paddingHorizontal: 20,
+    borderRadius: 12,
+  },
+  heading: {
+    fontSize: 20,
+    textAlign: 'center',
+  },
+
   buttonPrimary: {
-    height: 50,
-    width: 240,
+    height: 45,
+    width: 200,
     justifyContent: 'center',
     fontWeight: 'bold',
     alignItems: 'center',
@@ -96,8 +107,8 @@ const styles = StyleSheet.create({
   },
 
   buttonWhite: {
-    height: 50,
-    width: 240,
+    height: 45,
+    width: 200,
     justifyContent: 'center',
     fontWeight: 'bold',
     alignItems: 'center',
@@ -114,7 +125,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   buttonText: {
-    fontSize: 20,
+    fontSize: 18,
     fontWeight: 'bold',
+    color: Colors.white,
   },
 });
