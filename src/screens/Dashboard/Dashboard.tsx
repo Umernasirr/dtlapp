@@ -6,7 +6,11 @@ import {Colors, globalStyles} from '../../utils/theme';
 import Spacer from '../../components/Spacer';
 import {TouchableRipple} from 'react-native-paper';
 import TransactionHistory from '../../components/TransactionHistory';
+import {useAppSelector} from '../../state';
+import {useNavigation} from '@react-navigation/native';
 const Dashboard = () => {
+  const {user} = useAppSelector(state => state.user);
+  const navigation = useNavigation();
   return (
     <SafeAreaView style={globalStyles.container}>
       <Spacer />
@@ -17,12 +21,12 @@ const Dashboard = () => {
       <Spacer />
 
       <Text style={styles.dashboardName}>
-        Hi User, welcome to the DTL Ledger App
+        Hi {user.name}, welcome to the DTL Ledger App
       </Text>
       <Spacer />
 
       <View style={styles.dashboardWrapper}>
-        <Text style={styles.dashboardHeading}>100 PKR</Text>
+        <Text style={styles.dashboardHeading}>{user.balance} PKR</Text>
         <Text style={styles.dashboardSubHeading}>Total Balance</Text>
         <BigSpacer />
       </View>
@@ -30,7 +34,12 @@ const Dashboard = () => {
       <Spacer />
 
       <View style={styles.buttonWrapper}>
-        <TouchableRipple style={styles.buttonPrimary} onPress={() => {}}>
+        <TouchableRipple
+          style={styles.buttonPrimary}
+          onPress={() => {
+            // @ts-ignore
+            navigation.navigate('Scan Code');
+          }}>
           <Text style={styles.buttonText}>Avail Code</Text>
         </TouchableRipple>
       </View>

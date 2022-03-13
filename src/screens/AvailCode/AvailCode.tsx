@@ -8,16 +8,28 @@ import {ActivityIndicator, Text} from 'react-native-paper';
 import QRCodeScanner from 'react-native-qrcode-scanner';
 import {RNCamera} from 'react-native-camera';
 import BigSpacer from '../../components/BigSpacer';
+import {useAppSelector} from '../../state';
+import useCode from '../../hooks/useCode';
+// import useCode from '../../hooks/useCode';
 
 const AvailCode = () => {
   const [isLoading, setIsLoading] = useState(false);
+
+  const {user} = useAppSelector(state => state.user);
+
+  const {availCode} = useCode();
   const onSuccess = (e: any) => {
     setIsLoading(true);
     handleAvailCode(e.data);
   };
 
-  const handleAvailCode = (data: string) => {
-    console.log(data);
+  const handleAvailCode = async (codeId: string) => {
+    const codeAvailed = await availCode(user._id, codeId);
+
+    codeAvailed &&
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 2000);
   };
   return (
     <SafeAreaView style={globalStyles.container}>
@@ -87,7 +99,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.primary,
   },
   qrContainer: {
-    height: '60%',
+    height: '70%',
   },
   qrText: {
     backgroundColor: Colors.white,

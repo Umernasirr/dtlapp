@@ -1,17 +1,44 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 import {useAppDispatch, useAppSelector} from '../../state';
-import {storeToken} from '../../state/userReducer';
+import {storeToken, setUser} from '../../state/userReducer';
 import {BASE_URL} from '../../utils/theme/constants';
 
 const useAuth = () => {
-  const userState = useAppSelector(state => state.user);
+  const {user} = useAppSelector(state => state.user);
+
   const dispatch = useAppDispatch();
 
   const checkToken = async () => {
     const token = await AsyncStorage.getItem('@token');
 
     return token;
+  };
+
+  const getMe = async () => {
+    const token = await checkToken();
+    try {
+      const res = await axios.post(
+        `${BASE_URL}/auth/me`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+
+      if (!res.data) {
+        return;
+      }
+
+      const data = res.data.data;
+
+      dispatch(setUser(data.user));
+      dispatch(storeToken(data.token));
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   const login = async (phoneNumber: string, password: string) => {
@@ -27,12 +54,40 @@ const useAuth = () => {
 
       const data = res.data.data;
 
+      dispatch(setUser(data.user));
+      dispatch(storeToken(data.token));
+      return true;
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  const register = async (
+    phoneNumber: string,
+    password: string,
+    name: string,
+  ) => {
+    try {
+      const res = await axios.post(`${BASE_URL}/auth/register`, {
+        phoneNumber,
+        password,
+        name,
+      });
+
+      if (!res.data) {
+        return;
+      }
+
+      const data = res.data.data;
+
+      dispatch(setUser(data.user));
       dispatch(storeToken(data.token));
     } catch (e) {
       console.log(e);
     }
   };
-  return {user: userState.user, login, checkToken};
+
+  return {user, login, register, getMe, checkToken};
 };
 
 export default useAuth;

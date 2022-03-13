@@ -22,7 +22,7 @@ const LoginSchema = Yup.object().shape({
 });
 
 const Form = () => {
-  const {login} = useAuth();
+  const {register} = useAuth();
   const [showPassword, setShowPassword] = useState(false);
   const initialValues: ILoginForm = {
     password: '',
@@ -43,10 +43,10 @@ const Form = () => {
       return;
     }
 
-    const {phoneNumber, password} = values;
+    const {phoneNumber, password, name} = values;
 
     try {
-      login(phoneNumber, password);
+      register(phoneNumber, password, name);
     } catch (e) {
       console.log(e);
     }
@@ -107,10 +107,10 @@ const Form = () => {
           onChangeText={formik.handleChange('password')}
           style={styles.input}
           placeholder="Password"
-          secureTextEntry={showPassword}
+          secureTextEntry={!showPassword}
         />
         <FeatherIcon
-          name={showPassword ? 'eye' : 'eye-off'}
+          name={!showPassword ? 'eye' : 'eye-off'}
           size={20}
           style={styles.inputAdornment}
           onPress={() => setShowPassword(!showPassword)}

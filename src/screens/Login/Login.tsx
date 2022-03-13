@@ -9,17 +9,24 @@ import {useNavigation} from '@react-navigation/native';
 import {TouchableRipple} from 'react-native-paper';
 
 const Login = () => {
-  const {checkToken} = useAuth();
-
+  const {checkToken, getMe} = useAuth();
   const navigation = useNavigation();
   useEffect(() => {
-    checkToken().then(isLoggedIn => {
+    const getDetails = async () => {
+      const isLoggedIn = await checkToken();
+
       if (isLoggedIn) {
+        await getMe();
+
         // @ts-ignore
         navigation.navigate('Home');
       }
-    });
-  }, [checkToken, navigation]);
+    };
+
+    getDetails();
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const handleSignup = () => {
     // @ts-ignore
