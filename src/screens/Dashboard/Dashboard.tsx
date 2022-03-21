@@ -1,16 +1,48 @@
-import {Image, StyleSheet, Text, View} from 'react-native';
-import React from 'react';
+import {Image, Linking, Platform, StyleSheet, Text, View} from 'react-native';
+import React, {useEffect} from 'react';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import BigSpacer from '../../components/BigSpacer';
 import {Colors, globalStyles} from '../../utils/theme';
 import Spacer from '../../components/Spacer';
 import {TouchableRipple} from 'react-native-paper';
 import TransactionHistory from '../../components/TransactionHistory';
-import {useAppSelector} from '../../state';
+import {useAppDispatch, useAppSelector} from '../../state';
 import {useNavigation} from '@react-navigation/native';
+import useTransaction from '../../hooks/useTransaction';
+import {setTransactions} from '../../state/transactionReducer/';
 const Dashboard = () => {
   const {user} = useAppSelector(state => state.user);
+  const {transactions} = useAppSelector(state => state.transactions);
+
+  const {getTransactions} = useTransaction();
+
+  const dispatch = useAppDispatch();
   const navigation = useNavigation();
+
+  const getPaid = () => {
+    let phoneNumber = '';
+
+    if (Platform.OS === 'android') {
+      phoneNumber = 'tel:${1234567890}';
+    } else {
+      phoneNumber = 'telprompt:${1234567890}';
+    }
+
+    Linking.openURL(phoneNumber);
+  };
+
+  useEffect(() => {
+    const getTransactionsFn = async () => {
+      const data = await getTransactions(user._id);
+
+      data && dispatch(setTransactions(data));
+    };
+
+    getTransactionsFn();
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user._id]);
+
   return (
     <SafeAreaView style={globalStyles.container}>
       <Spacer />
@@ -45,11 +77,23 @@ const Dashboard = () => {
       </View>
 
       <Spacer />
+      {user.balance > 0 && (
+        <View style={styles.buttonWrapper}>
+          <TouchableRipple style={styles.buttonWhite} onPress={() => getPaid()}>
+            <Text style={styles.buttonWhiteText}>Get Paid</Text>
+          </TouchableRipple>
+        </View>
+      )}
+
+      <Spacer />
 
       <View style={styles.historyWrapper}>
-        <Text style={styles.heading}>Transaction History</Text>
-        <Spacer />
-        <TransactionHistory />
+        <Text style={styles.heading}>Recent Transactions</Text>
+        <TransactionHistory
+          transactionList={
+            transactions?.length > 0 ? transactions.slice(0, 10) : []
+          }
+        />
       </View>
     </SafeAreaView>
   );
@@ -61,7 +105,7 @@ const styles = StyleSheet.create({
   dashboardName: {
     marginHorizontal: '5%',
     marginRight: '20%',
-    fontSize: 20,
+    fontSize: 16,
     fontWeight: '500',
   },
 
@@ -74,13 +118,13 @@ const styles = StyleSheet.create({
 
   dashboardHeading: {
     textAlign: 'center',
-    fontSize: 36,
+    fontSize: 30,
     fontWeight: 'bold',
     color: Colors.primary,
     paddingVertical: 4,
     marginVertical: 8,
     borderBottomColor: Colors.primary,
-    borderBottomWidth: 4,
+    borderBottomWidth: 3,
     marginHorizontal: '10%',
     borderRadius: 4,
   },
@@ -101,7 +145,7 @@ const styles = StyleSheet.create({
     borderRadius: 12,
   },
   heading: {
-    fontSize: 20,
+    fontSize: 18,
     textAlign: 'center',
   },
 

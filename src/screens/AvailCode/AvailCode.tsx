@@ -8,15 +8,16 @@ import {ActivityIndicator, Text} from 'react-native-paper';
 import QRCodeScanner from 'react-native-qrcode-scanner';
 import {RNCamera} from 'react-native-camera';
 import BigSpacer from '../../components/BigSpacer';
-import {useAppSelector} from '../../state';
+import {useAppDispatch, useAppSelector} from '../../state';
 import useCode from '../../hooks/useCode';
-// import useCode from '../../hooks/useCode';
+import axios from 'axios';
+import {BASE_URL} from '../../utils/theme/constants';
+import {setTransactions} from '../../state/transactionReducer';
 
 const AvailCode = () => {
   const [isLoading, setIsLoading] = useState(false);
-
   const {user} = useAppSelector(state => state.user);
-
+  const dispatch = useAppDispatch();
   const {availCode} = useCode();
   const onSuccess = (e: any) => {
     setIsLoading(true);
@@ -24,13 +25,27 @@ const AvailCode = () => {
   };
 
   const handleAvailCode = async (codeId: string) => {
-    const codeAvailed = await availCode(user._id, codeId);
+    const updateTransactions = await availCode(user._id, codeId);
 
-    codeAvailed &&
-      setTimeout(() => {
-        setIsLoading(false);
-      }, 2000);
+    updateTransactions && getTransactionsFn();
+
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 3000);
   };
+
+  const getTransactionsFn = async () => {
+    const res2 = await axios.get(`${BASE_URL}/transaction/${user._id}`);
+
+    if (!res2?.data?.data?.transactions) {
+      return;
+    }
+    const transactions = res2?.data?.data?.transactions;
+
+    console.log(transactions);
+    dispatch(setTransactions(transactions));
+  };
+
   return (
     <SafeAreaView style={globalStyles.container}>
       <Spacer />

@@ -1,7 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 import {useAppDispatch, useAppSelector} from '../../state';
-import {storeToken, setUser} from '../../state/userReducer';
+import {storeToken, setUser, removeToken} from '../../state/userReducer';
 import {BASE_URL} from '../../utils/theme/constants';
 
 const useAuth = () => {
@@ -17,6 +17,7 @@ const useAuth = () => {
 
   const getMe = async () => {
     const token = await checkToken();
+
     try {
       const res = await axios.post(
         `${BASE_URL}/auth/me`,
@@ -37,7 +38,7 @@ const useAuth = () => {
       dispatch(setUser(data.user));
       dispatch(storeToken(data.token));
     } catch (e) {
-      console.log(e);
+      console.log('getMe', e);
     }
   };
 
@@ -87,7 +88,10 @@ const useAuth = () => {
     }
   };
 
-  return {user, login, register, getMe, checkToken};
+  const logout = () => {
+    dispatch(removeToken());
+  };
+  return {user, login, logout, register, getMe, checkToken};
 };
 
 export default useAuth;

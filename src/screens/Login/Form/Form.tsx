@@ -8,7 +8,7 @@ import FeatherIcon from 'react-native-vector-icons/Feather';
 import {TextInput} from 'react-native-paper';
 import {Colors} from '../../../utils/theme';
 import useAuth from '../../../hooks/useAuth/useAuth';
-import {useNavigation} from '@react-navigation/native';
+import {StackActions, useNavigation} from '@react-navigation/native';
 
 const LoginSchema = Yup.object().shape({
   phoneNumber: Yup.string()
@@ -20,8 +20,8 @@ const LoginSchema = Yup.object().shape({
 });
 
 const Form = () => {
-  const navigation = useNavigation();
   const {login} = useAuth();
+  const navigation = useNavigation();
   const [showPassword, setShowPassword] = useState(false);
   const initialValues: ILoginForm = {
     password: '',
@@ -44,12 +44,9 @@ const Form = () => {
     const {phoneNumber, password} = values;
 
     try {
-      const isLoggedIn = await login(phoneNumber, password);
+      await login(phoneNumber, password);
 
-      if (isLoggedIn) {
-        // @ts-ignore
-        navigation.navigate('Home');
-      }
+      navigation.dispatch(StackActions.replace('App'));
     } catch (e) {
       console.log(e);
     }

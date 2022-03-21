@@ -20,6 +20,8 @@ target 'dtlapp' do
 
   pod 'react-native-camera', :path => '../node_modules/react-native-camera'
 
+  pod 'RNSweetAlert', :path => '../node_modules/react-native-sweet-alert'
+
   target 'dtlappTests' do
     inherit! :complete
     # Pods for testing

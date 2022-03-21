@@ -6,9 +6,12 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import TransactionHistory from '../../components/TransactionHistory';
 import {Button} from 'react-native-paper';
 import {useNavigation} from '@react-navigation/native';
+import {useAppSelector} from '../../state';
 
 const Transactions = () => {
   const navigation = useNavigation();
+  const {transactions} = useAppSelector(state => state.transactions);
+
   return (
     <SafeAreaView style={globalStyles.container}>
       <Spacer />
@@ -20,7 +23,7 @@ const Transactions = () => {
       <Text style={styles.transactionHeading}>Transaction History</Text>
       <Spacer />
       <View style={styles.historyWrapper}>
-        <TransactionHistory />
+        <TransactionHistory transactionList={transactions} />
       </View>
 
       <Spacer />
@@ -41,8 +44,6 @@ const styles = StyleSheet.create({
   transactionHeading: {
     fontSize: 30,
     textAlign: 'center',
-    borderBottomColor: Colors.primary,
-    borderBottomWidth: 3,
     marginHorizontal: '10%',
     borderRadius: 4,
     paddingVertical: 4,

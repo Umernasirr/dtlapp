@@ -1,32 +1,14 @@
 import {StyleSheet, Text, SafeAreaView, Image} from 'react-native';
-import React, {useEffect} from 'react';
+import React from 'react';
 import {Colors, globalStyles} from '../../utils/theme';
 import Spacer from '../../components/Spacer';
 import BigSpacer from '../../components/BigSpacer';
 import Form from './Form/Form';
-import useAuth from '../../hooks/useAuth/useAuth';
 import {useNavigation} from '@react-navigation/native';
 import {TouchableRipple} from 'react-native-paper';
 
 const Login = () => {
-  const {checkToken, getMe} = useAuth();
   const navigation = useNavigation();
-  useEffect(() => {
-    const getDetails = async () => {
-      const isLoggedIn = await checkToken();
-
-      if (isLoggedIn) {
-        await getMe();
-
-        // @ts-ignore
-        navigation.navigate('Home');
-      }
-    };
-
-    getDetails();
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   const handleSignup = () => {
     // @ts-ignore

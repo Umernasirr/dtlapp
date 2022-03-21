@@ -1,26 +1,14 @@
 import {StyleSheet, Text, SafeAreaView, Image} from 'react-native';
-import React, {useEffect} from 'react';
+import React from 'react';
 import {Colors, globalStyles} from '../../utils/theme';
 import Spacer from '../../components/Spacer';
 import BigSpacer from '../../components/BigSpacer';
 import Form from './Form/Form';
-import useAuth from '../../hooks/useAuth/useAuth';
-import {useNavigation} from '@react-navigation/native';
 import {TouchableRipple} from 'react-native-paper';
+import {useNavigation} from '@react-navigation/native';
 
 const Signup = () => {
-  const {checkToken} = useAuth();
-
   const navigation = useNavigation();
-  useEffect(() => {
-    checkToken().then(isLoggedIn => {
-      if (isLoggedIn) {
-        // @ts-ignore
-        // navigation.navigate('Home');
-      }
-    });
-  }, [checkToken, navigation]);
-
   return (
     <SafeAreaView style={styles.authContainer}>
       <Image
