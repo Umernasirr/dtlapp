@@ -3,14 +3,19 @@ import {BASE_URL} from '../../utils/theme/constants';
 
 import SweetAlert from 'react-native-sweet-alert';
 import {useAppDispatch} from '../../state';
-import {setUserBalance} from '../../state/userReducer';
-import {IUser} from '../useAuth/types';
+import {setActiveProfile} from '../../state/profileReducer';
+import {IProfileItem} from '../../state/profileReducer/profileSlice';
 
 const useCode = () => {
   const dispatch = useAppDispatch();
-  const availCode = async (userId: string, codeId: string) => {
+  const availCode = async (
+    profileId: string,
+    userId: string,
+    codeId: string,
+  ) => {
     try {
       const res = await axios.post(`${BASE_URL}/code/avail`, {
+        profileId,
         userId,
         codeId,
       });
@@ -23,12 +28,13 @@ const useCode = () => {
         });
         return false;
       } else {
-        const user: IUser = res?.data?.data?.user;
+        const profile: IProfileItem = res?.data?.data?.profile;
 
-        if (!user) {
+        if (!profile) {
           return;
         }
-        dispatch(setUserBalance(user.balance));
+
+        dispatch(setActiveProfile(profile));
 
         SweetAlert.showAlertWithOptions({
           title: 'Code Availed Succesfully',

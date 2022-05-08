@@ -39,6 +39,7 @@ const useAuth = () => {
       dispatch(storeToken(data.token));
     } catch (e) {
       console.log('getMe', e);
+      dispatch(removeToken());
     }
   };
 

@@ -13,6 +13,7 @@ import AvailCode from '../AvailCode';
 import useAuth from '../../hooks/useAuth/useAuth';
 import Settings from '../Settings';
 import {StackActions, useNavigation} from '@react-navigation/native';
+import Clients from '../Clients';
 
 const AppNavigator = () => {
   const navigation = useNavigation();
@@ -21,6 +22,7 @@ const AppNavigator = () => {
 
   const AuthTab = createNativeStackNavigator();
   const MainStack = createNativeStackNavigator();
+  const AppStack = createNativeStackNavigator();
   const BottomTab = createMaterialBottomTabNavigator();
 
   const AuthNavigation = () => {
@@ -50,6 +52,17 @@ const AppNavigator = () => {
       </AuthTab.Navigator>
     );
   };
+
+  const AppNavigation = () => (
+    <AppStack.Navigator
+      screenOptions={{
+        headerShown: false,
+      }}>
+      <AppStack.Screen name="clients" component={Clients} />
+
+      <AppStack.Screen name="BottomNavigation" component={BottomNavigation} />
+    </AppStack.Navigator>
+  );
 
   const BottomNavigation = () => (
     <BottomTab.Navigator
@@ -103,7 +116,7 @@ const AppNavigator = () => {
         headerShown: false,
       }}>
       <MainStack.Screen name="Auth" component={AuthNavigation} />
-      <MainStack.Screen name="App" component={BottomNavigation} />
+      <MainStack.Screen name="App" component={AppNavigation} />
     </MainStack.Navigator>
   );
 };

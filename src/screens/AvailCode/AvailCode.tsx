@@ -17,6 +17,7 @@ import {setTransactions} from '../../state/transactionReducer';
 const AvailCode = () => {
   const [isLoading, setIsLoading] = useState(false);
   const {user} = useAppSelector(state => state.user);
+  const {activeProfile} = useAppSelector(state => state.profiles);
   const dispatch = useAppDispatch();
   const {availCode} = useCode();
   const onSuccess = (e: any) => {
@@ -25,7 +26,15 @@ const AvailCode = () => {
   };
 
   const handleAvailCode = async (codeId: string) => {
-    const updateTransactions = await availCode(user._id, codeId);
+    if (!activeProfile) {
+      return;
+    }
+
+    const updateTransactions = await availCode(
+      activeProfile._id,
+      user._id,
+      codeId,
+    );
 
     updateTransactions && getTransactionsFn();
 
@@ -42,7 +51,6 @@ const AvailCode = () => {
     }
     const transactions = res2?.data?.data?.transactions;
 
-    console.log(transactions);
     dispatch(setTransactions(transactions));
   };
 
@@ -132,7 +140,7 @@ const styles = StyleSheet.create({
   marker: {
     width: 200,
     height: 200,
-    marginBottom: '80%',
+    marginBottom: '150%',
     opacity: 0.6,
   },
 });

@@ -13,7 +13,7 @@ import {setTransactions} from '../../state/transactionReducer/';
 const Dashboard = () => {
   const {user} = useAppSelector(state => state.user);
   const {transactions} = useAppSelector(state => state.transactions);
-
+  const {activeProfile} = useAppSelector(state => state.profiles);
   const {getTransactions} = useTransaction();
 
   const dispatch = useAppDispatch();
@@ -58,7 +58,9 @@ const Dashboard = () => {
       <Spacer />
 
       <View style={styles.dashboardWrapper}>
-        <Text style={styles.dashboardHeading}>{user.balance} PKR</Text>
+        <Text style={styles.dashboardHeading}>
+          {activeProfile?.balance} PKR
+        </Text>
         <Text style={styles.dashboardSubHeading}>Total Balance</Text>
         <BigSpacer />
       </View>
@@ -87,14 +89,13 @@ const Dashboard = () => {
 
       <Spacer />
 
-      <View style={styles.historyWrapper}>
-        <Text style={styles.heading}>Recent Transactions</Text>
-        <TransactionHistory
-          transactionList={
-            transactions?.length > 0 ? transactions.slice(0, 10) : []
-          }
-        />
-      </View>
+      {transactions.length > 0 && (
+        <View style={styles.historyWrapper}>
+          <Text style={styles.heading}>Recent Transactions</Text>
+
+          <TransactionHistory transactionList={transactions.slice(0, 10)} />
+        </View>
+      )}
     </SafeAreaView>
   );
 };
