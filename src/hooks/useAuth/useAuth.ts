@@ -3,8 +3,9 @@ import axios from 'axios';
 import {useAppDispatch, useAppSelector} from '../../state';
 import {storeToken, setUser, removeToken} from '../../state/userReducer';
 import {BASE_URL} from '../../utils/theme/constants';
-import SweetAlert from 'react-native-sweet-alert';
 import Toast from 'react-native-toast-message';
+// @ts-ignore
+import SweetAlert from 'react-native-sweet-alert';
 
 const useAuth = () => {
   const {user} = useAppSelector(state => state.user);
@@ -70,8 +71,8 @@ const useAuth = () => {
       Toast.show({
         type: 'error',
         // @ts-ignore
-        text1: e.response.data.message ?? 'Error Occured',
-        text2: 'Please try again',
+        text1: e?.response?.data?.message ?? 'Error Occured',
+        text2: 'Please try again later',
       });
     }
   };
@@ -88,22 +89,35 @@ const useAuth = () => {
         name,
       });
 
+      console.log('what is this');
+
+      console.log(res.data, 'res.data');
+
       if (!res.data) {
         return;
       }
 
-      const data = res.data.data;
+      SweetAlert.showAlertWithOptions({
+        title: 'Registered Successfully',
+        subTitle:
+          'Our Admins will call and verify your account soon, please wait',
+        style: 'success',
+      });
 
-      dispatch(setUser(data.user));
-      dispatch(storeToken(data.token));
+      // const data = res.data.data;
+
+      // dispatch(setUser(data.user));
+      // dispatch(storeToken(data.token));
+      return true;
     } catch (e) {
       console.log(e);
       Toast.show({
         type: 'error',
         // @ts-ignore
-        text1: e.response.data.message ?? 'Error Occured',
-        text2: 'Please try again',
+        text1: e?.response?.data?.message ?? 'Error Occured',
+        text2: 'Please try again later',
       });
+      return false;
     }
   };
 

@@ -23,7 +23,7 @@ const useClients = () => {
       Toast.show({
         type: 'error',
         // @ts-ignore
-        text1: e.response.data.message ?? 'Error Occured',
+        text1: e?.response?.data?.message ?? 'Error Occured',
         text2: 'Please try again',
       });
     }

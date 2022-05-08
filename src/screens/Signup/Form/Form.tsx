@@ -10,7 +10,7 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {TextInput} from 'react-native-paper';
 import {Colors} from '../../../utils/theme';
 import useAuth from '../../../hooks/useAuth/useAuth';
-import Toast from 'react-native-toast-message';
+import {useNavigation} from '@react-navigation/native';
 
 const LoginSchema = Yup.object().shape({
   phoneNumber: Yup.string()
@@ -24,6 +24,7 @@ const LoginSchema = Yup.object().shape({
 
 const Form = () => {
   const {register} = useAuth();
+  const navigation = useNavigation();
   const [showPassword, setShowPassword] = useState(false);
   const initialValues: ILoginForm = {
     password: '',
@@ -39,7 +40,7 @@ const Form = () => {
     validationSchema: LoginSchema,
   });
 
-  const handleRegister = (values: ILoginForm) => {
+  const handleRegister = async (values: ILoginForm) => {
     if (!formik.isValid) {
       return;
     }
@@ -47,15 +48,14 @@ const Form = () => {
     const {phoneNumber, password, name} = values;
 
     try {
-      register(phoneNumber, password, name);
+      const isRegistered = await register(phoneNumber, password, name);
+
+      if (isRegistered) {
+        // @ts-ignore
+        navigation.navigate('Login');
+      }
     } catch (e) {
       console.log(e);
-      Toast.show({
-        type: 'error',
-        // @ts-ignore
-        text1: e.response.data.message ?? 'Error Occured',
-        text2: 'Please try again',
-      });
     }
   };
 
