@@ -10,6 +10,7 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {TextInput} from 'react-native-paper';
 import {Colors} from '../../../utils/theme';
 import useAuth from '../../../hooks/useAuth/useAuth';
+import Toast from 'react-native-toast-message';
 
 const LoginSchema = Yup.object().shape({
   phoneNumber: Yup.string()
@@ -49,6 +50,12 @@ const Form = () => {
       register(phoneNumber, password, name);
     } catch (e) {
       console.log(e);
+      Toast.show({
+        type: 'error',
+        // @ts-ignore
+        text1: e.response.data.message ?? 'Error Occured',
+        text2: 'Please try again',
+      });
     }
   };
 

@@ -33,6 +33,13 @@ const globalStyles = StyleSheet.create({
     resizeMode: 'contain',
     justifyContent: 'center',
   },
+
+  ustaadLogo: {
+    height: 80,
+    width: 100,
+    resizeMode: 'contain',
+    borderRadius: 40,
+  },
 });
 
 export {Colors, globalStyles, paperTheme};

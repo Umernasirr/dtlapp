@@ -1,5 +1,5 @@
 {
-  "name": "dtlapp",
+  "name": "Ustaad",
   "version": "0.0.1",
   "private": true,
   "scripts": {
@@ -31,6 +31,7 @@
     "react-native-safe-area-context": "^3.4.1",
     "react-native-screens": "^3.13.1",
     "react-native-sweet-alert": "^3.5.0",
+    "react-native-toast-message": "^2.1.5",
     "react-native-vector-icons": "^9.1.0",
     "react-redux": "^7.2.6",
     "yup": "^0.32.11"

@@ -3,6 +3,8 @@ import axios from 'axios';
 import {useAppDispatch, useAppSelector} from '../../state';
 import {storeToken, setUser, removeToken} from '../../state/userReducer';
 import {BASE_URL} from '../../utils/theme/constants';
+import SweetAlert from 'react-native-sweet-alert';
+import Toast from 'react-native-toast-message';
 
 const useAuth = () => {
   const {user} = useAppSelector(state => state.user);
@@ -37,9 +39,13 @@ const useAuth = () => {
 
       dispatch(setUser(data.user));
       dispatch(storeToken(data.token));
+
+      return true;
     } catch (e) {
-      console.log('getMe', e);
+      // @ts-ignore
+      console.log('getMe', e.response.data);
       dispatch(removeToken());
+      return false;
     }
   };
 
@@ -60,7 +66,13 @@ const useAuth = () => {
       dispatch(storeToken(data.token));
       return true;
     } catch (e) {
-      console.log(e);
+      console.log('login', e);
+      Toast.show({
+        type: 'error',
+        // @ts-ignore
+        text1: e.response.data.message ?? 'Error Occured',
+        text2: 'Please try again',
+      });
     }
   };
 
@@ -86,6 +98,12 @@ const useAuth = () => {
       dispatch(storeToken(data.token));
     } catch (e) {
       console.log(e);
+      Toast.show({
+        type: 'error',
+        // @ts-ignore
+        text1: e.response.data.message ?? 'Error Occured',
+        text2: 'Please try again',
+      });
     }
   };
 

@@ -8,6 +8,7 @@ import BigSpacer from '../../components/BigSpacer';
 import useAuth from '../../hooks/useAuth/useAuth';
 import {useAppSelector} from '../../state';
 import {StackActions, useNavigation} from '@react-navigation/native';
+import Toast from 'react-native-toast-message';
 
 const Settings = () => {
   const {logout} = useAuth();
@@ -16,12 +17,16 @@ const Settings = () => {
 
   const contactWhatsapp = () => {
     try {
-      const text = `Hello, my name is ${user.name}, I would like to withdraw my balance`;
+      const text = `Hello, My name is ${user.name}, I would like to contact DTL from Ustaad app`;
 
-      const phoneNumber = '123456789';
+      const phoneNumber = '+923432675848';
       Linking.openURL(`whatsapp://send?text=${text}&phone=${phoneNumber}`);
     } catch (e) {
-      console.log('Settings', e);
+      Toast.show({
+        type: 'error',
+        text1: 'Whatsapp not found on your device',
+        text2: 'Please try again',
+      });
     }
   };
 
@@ -30,9 +35,9 @@ const Settings = () => {
       let phoneNumber = '';
 
       if (Platform.OS === 'android') {
-        phoneNumber = 'tel:${1234567890}';
+        phoneNumber = 'tel:${+923432675848}';
       } else {
-        phoneNumber = 'telprompt:${1234567890}';
+        phoneNumber = 'telprompt:${+923432675848}';
       }
 
       Linking.openURL(phoneNumber);

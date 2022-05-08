@@ -12,8 +12,8 @@ const Signup = () => {
   return (
     <SafeAreaView style={styles.authContainer}>
       <Image
-        source={require('../../../assets/images/dtl-logo.png')}
-        style={globalStyles.logo}
+        source={require('../../../assets/images/ustaad-logo.png')}
+        style={globalStyles.ustaadLogo}
       />
       <Spacer />
 

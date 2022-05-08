@@ -44,9 +44,11 @@ const Form = () => {
     const {phoneNumber, password} = values;
 
     try {
-      await login(phoneNumber, password);
+      const isLoggedIn = await login(phoneNumber, password);
 
-      navigation.dispatch(StackActions.replace('App'));
+      if (isLoggedIn) {
+        navigation.dispatch(StackActions.replace('App'));
+      }
     } catch (e) {
       console.log(e);
     }

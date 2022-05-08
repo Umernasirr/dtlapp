@@ -1,5 +1,6 @@
 import axios from 'axios';
 import {BASE_URL} from '../utils/theme/constants';
+import Toast from 'react-native-toast-message';
 
 export interface IClients {
   _id: string;
@@ -19,6 +20,12 @@ const useClients = () => {
       return clients;
     } catch (e) {
       console.log('getClients', e);
+      Toast.show({
+        type: 'error',
+        // @ts-ignore
+        text1: e.response.data.message ?? 'Error Occured',
+        text2: 'Please try again',
+      });
     }
   };
 

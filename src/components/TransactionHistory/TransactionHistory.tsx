@@ -36,11 +36,15 @@ const TransactionHistory: React.FC<IProps> = ({transactionList = []}) => {
         <Text>Price</Text>
       </View>
 
-      <FlatList
-        data={transactionList}
-        renderItem={renderItem}
-        keyExtractor={keyExtractor}
-      />
+      {transactionList.length > 0 ? (
+        <FlatList
+          data={transactionList}
+          renderItem={renderItem}
+          keyExtractor={keyExtractor}
+        />
+      ) : (
+        <Text>No Transaction yet...</Text>
+      )}
     </>
   );
 };

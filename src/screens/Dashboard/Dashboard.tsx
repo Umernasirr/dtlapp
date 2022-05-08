@@ -10,6 +10,8 @@ import {useAppDispatch, useAppSelector} from '../../state';
 import {useNavigation} from '@react-navigation/native';
 import useTransaction from '../../hooks/useTransaction';
 import {setTransactions} from '../../state/transactionReducer/';
+
+import FeatherIcon from 'react-native-vector-icons/Feather';
 const Dashboard = () => {
   const {user} = useAppSelector(state => state.user);
   const {transactions} = useAppSelector(state => state.transactions);
@@ -53,7 +55,7 @@ const Dashboard = () => {
       <Spacer />
 
       <Text style={styles.dashboardName}>
-        Hi {user.name}, welcome to the DTL Ledger App
+        Hi {user.name}, welcome to the Ustaad Ledger Application
       </Text>
       <Spacer />
 
@@ -74,7 +76,9 @@ const Dashboard = () => {
             // @ts-ignore
             navigation.navigate('Scan Code');
           }}>
-          <Text style={styles.buttonText}>Avail Code</Text>
+          <Text style={styles.buttonText}>
+            Scan Codes <FeatherIcon name="camera" size={20} />
+          </Text>
         </TouchableRipple>
       </View>
 

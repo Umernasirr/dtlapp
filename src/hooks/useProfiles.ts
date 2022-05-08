@@ -1,7 +1,7 @@
 import axios from 'axios';
 import {IProfileItem} from '../state/profileReducer/profileSlice';
 import {BASE_URL} from '../utils/theme/constants';
-
+import Toast from 'react-native-toast-message';
 export interface IClients {
   _id: string;
   name: string;
@@ -20,6 +20,11 @@ const useProfiles = (userId: string) => {
       return profiles;
     } catch (e) {
       console.log('getProfiles', e);
+      Toast.show({
+        type: 'error',
+        // @ts-ignore
+        text1: e.response.data.message ?? 'Error Occured',
+      });
     }
   };
 
@@ -38,6 +43,12 @@ const useProfiles = (userId: string) => {
       return profiles;
     } catch (e) {
       console.log('createProfile', e);
+      Toast.show({
+        type: 'error',
+        // @ts-ignore
+        text1: e.response.data.message ?? 'Error Occured',
+        text2: 'Please try again',
+      });
     }
   };
 

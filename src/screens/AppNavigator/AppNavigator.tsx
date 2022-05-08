@@ -30,6 +30,7 @@ const AppNavigator = () => {
       const getData = async () => {
         const token = await checkToken();
 
+        console.log(token);
         if (token) {
           await getMe();
 
