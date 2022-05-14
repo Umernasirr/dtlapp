@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import Login from '../Login';
 import Dashboard from '../Dashboard/Dashboard';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
@@ -10,37 +10,17 @@ import {Colors} from '../../utils/theme';
 import Signup from '../Signup';
 import Transactions from '../Transactions';
 import AvailCode from '../AvailCode';
-import useAuth from '../../hooks/useAuth/useAuth';
 import Settings from '../Settings';
-import {StackActions, useNavigation} from '@react-navigation/native';
 import Clients from '../Clients';
+import SplashScreen from '../SplashScreen';
 
 const AppNavigator = () => {
-  const navigation = useNavigation();
-
-  const {checkToken, getMe} = useAuth();
-
   const AuthTab = createNativeStackNavigator();
   const MainStack = createNativeStackNavigator();
   const AppStack = createNativeStackNavigator();
   const BottomTab = createMaterialBottomTabNavigator();
 
   const AuthNavigation = () => {
-    useEffect(() => {
-      const getData = async () => {
-        const token = await checkToken();
-
-        if (token) {
-          await getMe();
-
-          navigation.dispatch(StackActions.replace('App'));
-        }
-      };
-
-      getData();
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
-
     return (
       <AuthTab.Navigator
         initialRouteName="Login"
@@ -115,6 +95,8 @@ const AppNavigator = () => {
       screenOptions={{
         headerShown: false,
       }}>
+      <MainStack.Screen name="Splash" component={SplashScreen} />
+
       <MainStack.Screen name="Auth" component={AuthNavigation} />
       <MainStack.Screen name="App" component={AppNavigation} />
     </MainStack.Navigator>

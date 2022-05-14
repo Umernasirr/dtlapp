@@ -1,7 +1,7 @@
-import React, {useCallback, useEffect} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import {globalStyles} from '../../utils/theme';
-import {FlatList, StyleSheet, Text} from 'react-native';
+import {Colors, globalStyles} from '../../utils/theme';
+import {FlatList, StyleSheet, Text, ActivityIndicator} from 'react-native';
 import BigSpacer from '../../components/BigSpacer';
 import useClients from '../../hooks/useClients';
 import {setActiveClient, setClients} from '../../state/clientReducer';
@@ -18,6 +18,7 @@ const Clients = () => {
   const {user} = useAppSelector(state => state.user);
   const {profiles} = useAppSelector(state => state.profiles);
   const {getProfiles, createProfile} = useProfiles(user._id);
+  const [isLoading, setIsLoading] = useState(true);
 
   const navigation = useNavigation();
 
@@ -36,6 +37,8 @@ const Clients = () => {
       const data = await getProfiles();
 
       data && dispatch(setProfiles(data));
+
+      setIsLoading(false);
     };
 
     getClientsFn();
@@ -89,16 +92,26 @@ const Clients = () => {
 
   return (
     <SafeAreaView style={globalStyles.container}>
-      <BigSpacer />
-      <Text style={styles.companyHeader}>Select Company</Text>
+      {!isLoading ? (
+        <>
+          <BigSpacer />
+          <Text style={styles.companyHeader}>Select Company</Text>
 
-      <BigSpacer />
+          <BigSpacer />
 
-      <FlatList
-        data={clients}
-        renderItem={renderItem}
-        keyExtractor={keyExtractor}
-      />
+          <FlatList
+            data={clients}
+            renderItem={renderItem}
+            keyExtractor={keyExtractor}
+          />
+        </>
+      ) : (
+        <ActivityIndicator
+          style={styles.activityIndicator}
+          size={60}
+          color={Colors.primary}
+        />
+      )}
     </SafeAreaView>
   );
 };
@@ -110,5 +123,8 @@ const styles = StyleSheet.create({
     fontSize: 24,
     textAlign: 'center',
     fontWeight: 'bold',
+  },
+  activityIndicator: {
+    flex: 1,
   },
 });

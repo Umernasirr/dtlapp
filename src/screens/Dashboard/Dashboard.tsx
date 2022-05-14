@@ -12,6 +12,7 @@ import useTransaction from '../../hooks/useTransaction';
 import {setTransactions} from '../../state/transactionReducer/';
 
 import FeatherIcon from 'react-native-vector-icons/Feather';
+
 const Dashboard = () => {
   const {user} = useAppSelector(state => state.user);
   const {transactions} = useAppSelector(state => state.transactions);
@@ -77,13 +78,14 @@ const Dashboard = () => {
             navigation.navigate('Scan Code');
           }}>
           <Text style={styles.buttonText}>
-            Scan Codes <FeatherIcon name="camera" size={20} />
+            <FeatherIcon name="camera" size={20} /> Scan Codes
           </Text>
         </TouchableRipple>
       </View>
 
       <Spacer />
-      {user.balance > 0 && (
+
+      {activeProfile?.balance && activeProfile.balance > 0 && (
         <View style={styles.buttonWrapper}>
           <TouchableRipple style={styles.buttonWhite} onPress={() => getPaid()}>
             <Text style={styles.buttonWhiteText}>Get Paid</Text>
