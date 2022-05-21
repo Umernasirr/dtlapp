@@ -9,7 +9,7 @@ import Toast from 'react-native-toast-message';
 // import Geocoder from 'react-native-geocoding';
 
 const App = () => {
-  // Geocoder.init('AIzaSyCGE4q1Ar4Qf_Cf97y5RRTQPrZ3iGAtx9Y'); // use a valid API key
+  // Geocoder.init('AIzahurrdurrSyCGE4q1Ar4Qf_Cf97y5RRTQPrZ3iGAtx9Yhurrdurr'); // use a valid API key
 
   return (
     <NavigationContainer>
