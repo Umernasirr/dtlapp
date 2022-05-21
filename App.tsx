@@ -6,8 +6,11 @@ import {Provider} from 'react-redux';
 import AppNavigator from './src/screens/AppNavigator';
 import {paperTheme} from './src/utils/theme';
 import Toast from 'react-native-toast-message';
+// import Geocoder from 'react-native-geocoding';
 
 const App = () => {
+  // Geocoder.init('AIzaSyCGE4q1Ar4Qf_Cf97y5RRTQPrZ3iGAtx9Y'); // use a valid API key
+
   return (
     <NavigationContainer>
       <Provider store={store}>

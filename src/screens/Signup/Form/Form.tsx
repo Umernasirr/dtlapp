@@ -1,5 +1,11 @@
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import React, {useState} from 'react';
+import {
+  PermissionsAndroid,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
+import React, {useEffect, useState} from 'react';
 import Spacer from '../../../components/Spacer';
 import {ILoginForm} from '../types';
 import {useFormik} from 'formik';
@@ -11,6 +17,8 @@ import {TextInput} from 'react-native-paper';
 import {Colors} from '../../../utils/theme';
 import useAuth from '../../../hooks/useAuth/useAuth';
 import {useNavigation} from '@react-navigation/native';
+// import Geocoder from 'react-native-geocoding';
+import Geolocation from '@react-native-community/geolocation';
 
 const LoginSchema = Yup.object().shape({
   phoneNumber: Yup.string()
@@ -24,8 +32,10 @@ const LoginSchema = Yup.object().shape({
 
 const Form = () => {
   const {register} = useAuth();
+  const [location, setLocation] = useState('');
   const navigation = useNavigation();
   const [showPassword, setShowPassword] = useState(false);
+
   const initialValues: ILoginForm = {
     password: '',
     phoneNumber: '',
@@ -34,9 +44,8 @@ const Form = () => {
 
   const formik = useFormik({
     initialValues: initialValues,
-    onSubmit: values => {
-      handleRegister(values);
-    },
+    onSubmit: () => {},
+
     validationSchema: LoginSchema,
   });
 
@@ -48,7 +57,12 @@ const Form = () => {
     const {phoneNumber, password, name} = values;
 
     try {
-      const isRegistered = await register(phoneNumber, password, name);
+      const isRegistered = await register(
+        phoneNumber,
+        password,
+        name,
+        location,
+      );
 
       if (isRegistered) {
         // @ts-ignore
@@ -58,6 +72,33 @@ const Form = () => {
       console.log(e);
     }
   };
+
+  useEffect(() => {
+    if (!PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION) {
+      Geolocation.requestAuthorization();
+      Geolocation.getCurrentPosition(
+        pos => {
+          const loc = `${pos.coords.latitude},${pos.coords.longitude};}`;
+          setLocation(loc);
+        },
+        error => {
+          console.log(error, 'error');
+        },
+        {enableHighAccuracy: true, timeout: 15000, maximumAge: 10000},
+      );
+    } else {
+      Geolocation.getCurrentPosition(
+        pos => {
+          const loc = `${pos.coords.latitude},${pos.coords.longitude};}`;
+          setLocation(loc);
+        },
+        error => {
+          console.log(error, 'error');
+        },
+        {enableHighAccuracy: true, timeout: 15000, maximumAge: 10000},
+      );
+    }
+  }, []);
 
   return (
     <>

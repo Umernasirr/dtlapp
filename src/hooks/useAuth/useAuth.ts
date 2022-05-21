@@ -81,17 +81,15 @@ const useAuth = () => {
     phoneNumber: string,
     password: string,
     name: string,
+    location: string,
   ) => {
     try {
       const res = await axios.post(`${BASE_URL}/auth/register`, {
         phoneNumber,
         password,
         name,
+        location,
       });
-
-      console.log('what is this');
-
-      console.log(res.data, 'res.data');
 
       if (!res.data) {
         return;
