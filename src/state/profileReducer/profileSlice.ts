@@ -8,7 +8,10 @@ interface IProfileState {
 export interface IProfileItem {
   _id: string;
   userId: string;
-  clientId: string;
+  client: {
+    _id: string;
+    name: string;
+  };
   balance: number;
   status: boolean;
 }

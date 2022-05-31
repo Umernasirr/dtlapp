@@ -50,7 +50,7 @@ const Clients = () => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const handleClick = async (item: IClientItem) => {
     const profileExists = profiles.find(
-      profile => profile.clientId === item._id,
+      profile => profile.client._id === item._id,
     );
 
     if (!profileExists) {
@@ -59,7 +59,7 @@ const Clients = () => {
         return;
       }
       const activeProfile = updatedProfiles.find(
-        profile => profile.clientId === item?._id,
+        profile => profile.client._id === item?._id,
       );
 
       dispatch(setProfiles(updatedProfiles));
@@ -70,7 +70,7 @@ const Clients = () => {
 
     dispatch(setActiveClient(item));
     const activeProfile = profiles.find(
-      profile => profile.clientId === item?._id,
+      profile => profile.client._id === item?._id,
     );
     activeProfile && dispatch(setActiveProfile(activeProfile));
 
