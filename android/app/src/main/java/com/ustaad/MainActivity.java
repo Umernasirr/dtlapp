@@ -1,4 +1,4 @@
-package com.dtlapp;
+package com.ustaad;
 
 import com.facebook.react.ReactActivity;
 
