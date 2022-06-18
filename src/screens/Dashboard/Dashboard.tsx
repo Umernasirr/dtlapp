@@ -10,6 +10,8 @@ import {useAppDispatch, useAppSelector} from '../../state';
 import {useNavigation} from '@react-navigation/native';
 import useTransaction from '../../hooks/useTransaction';
 import {setTransactions} from '../../state/transactionReducer/';
+// @ts-ignore
+import SweetAlert from 'react-native-sweet-alert';
 
 import FeatherIcon from 'react-native-vector-icons/Feather';
 
@@ -85,15 +87,24 @@ const Dashboard = () => {
 
       <Spacer />
 
-      {activeProfile?.balance && activeProfile.balance > 0 && (
-        <View style={styles.buttonWrapper}>
-          <TouchableRipple style={styles.buttonWhite} onPress={() => getPaid()}>
-            <Text style={styles.buttonWhiteText}>
-              <FeatherIcon name="phone" size={20} /> Get Paid
-            </Text>
-          </TouchableRipple>
-        </View>
-      )}
+      <View style={styles.buttonWrapper}>
+        <TouchableRipple
+          style={styles.buttonWhite}
+          onPress={() => {
+            if (activeProfile && activeProfile?.balance >= 300) {
+              getPaid();
+            } else {
+              SweetAlert.showAlertWithOptions({
+                title: 'Balance needs to be greater than 300 PKR to be availed',
+                style: 'error',
+              });
+            }
+          }}>
+          <Text style={styles.buttonWhiteText}>
+            <FeatherIcon name="phone" size={20} /> <Text>Get Paid</Text>
+          </Text>
+        </TouchableRipple>
+      </View>
 
       <Spacer />
 

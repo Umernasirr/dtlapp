@@ -28,11 +28,11 @@ const useProfiles = (userId: string) => {
     }
   };
 
-  const createProfile = async (clientId: string) => {
+  const createProfile = async (client: string) => {
     try {
       const res = await axios.post(`${BASE_URL}/profile/create`, {
         userId,
-        clientId,
+        client,
       });
 
       if (!res?.data?.data) {

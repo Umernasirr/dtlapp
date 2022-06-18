@@ -81,7 +81,11 @@ const useAuth = () => {
     phoneNumber: string,
     password: string,
     name: string,
+    city: string,
+    email: string,
+    shopNo: string,
     location: string,
+    mechanic: string,
   ) => {
     try {
       const res = await axios.post(`${BASE_URL}/auth/register`, {
@@ -89,6 +93,10 @@ const useAuth = () => {
         password,
         name,
         location,
+        city,
+        email,
+        shopNo,
+        mechanic,
       });
 
       if (!res.data) {

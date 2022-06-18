@@ -2,8 +2,12 @@ export interface IUser {
   _id: string;
   phoneNumber: string;
   name: string;
-  balance: number;
   status: boolean;
+  location: string;
+  city: string;
+  email: string;
+  shopNo: string;
+  mechanic: string;
   role: UserRole;
 }
 

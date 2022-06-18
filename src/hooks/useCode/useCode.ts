@@ -1,6 +1,7 @@
 import axios from 'axios';
 import {BASE_URL} from '../../utils/theme/constants';
 
+// @ts-ignore
 import SweetAlert from 'react-native-sweet-alert';
 import {useAppDispatch} from '../../state';
 import {setActiveProfile} from '../../state/profileReducer';

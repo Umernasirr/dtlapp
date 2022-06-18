@@ -13,9 +13,13 @@ const getInitialState = (): IUserState => {
       _id: '',
       name: '',
       phoneNumber: '',
-      balance: 0,
       status: false,
       role: UserRole.USER,
+      city: '',
+      email: '',
+      location: '',
+      mechanic: '',
+      shopNo: '',
     },
     isLoggedIn: false,
   };
@@ -42,10 +46,6 @@ const userSlice = createSlice({
     },
     setUser(state, action: PayloadAction<IUser>) {
       state.user = action.payload;
-    },
-
-    setUserBalance(state, action: PayloadAction<number>) {
-      state.user.balance = action.payload;
     },
   },
 });

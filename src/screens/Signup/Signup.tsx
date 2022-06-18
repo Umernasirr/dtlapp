@@ -1,8 +1,7 @@
-import {StyleSheet, Text, SafeAreaView, Image} from 'react-native';
+import {StyleSheet, Text, SafeAreaView} from 'react-native';
 import React from 'react';
-import {Colors, globalStyles} from '../../utils/theme';
+import {Colors} from '../../utils/theme';
 import Spacer from '../../components/Spacer';
-import BigSpacer from '../../components/BigSpacer';
 import Form from './Form/Form';
 import {TouchableRipple} from 'react-native-paper';
 import {useNavigation} from '@react-navigation/native';
@@ -11,15 +10,9 @@ const Signup = () => {
   const navigation = useNavigation();
   return (
     <SafeAreaView style={styles.authContainer}>
-      <Image
-        source={require('../../../assets/images/ustaad-logo.png')}
-        style={globalStyles.ustaadLogo}
-      />
-      <Spacer />
-
       <Text style={styles.heading}>Signup</Text>
 
-      <BigSpacer />
+      <Spacer />
 
       <Form />
 

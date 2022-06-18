@@ -79,11 +79,11 @@ const AppNavigator = () => {
       />
 
       <BottomTab.Screen
-        name="Settings"
+        name="Contact info"
         component={Settings}
         options={{
           tabBarIcon: ({color}) => (
-            <MaterialIcons color={color} size={25} name={'settings'} />
+            <MaterialIcons color={color} size={25} name={'phone'} />
           ),
         }}
       />
