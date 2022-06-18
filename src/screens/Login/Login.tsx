@@ -9,7 +9,6 @@ import {TouchableRipple} from 'react-native-paper';
 
 const Login = () => {
   const navigation = useNavigation();
-
   const handleSignup = () => {
     // @ts-ignore
     navigation.navigate('Signup');

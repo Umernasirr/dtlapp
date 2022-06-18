@@ -13,7 +13,7 @@ import * as Yup from 'yup';
 import FeatherIcon from 'react-native-vector-icons/Feather';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
-import {TextInput} from 'react-native-paper';
+import {ActivityIndicator, TextInput} from 'react-native-paper';
 import {Colors} from '../../../utils/theme';
 import useAuth from '../../../hooks/useAuth/useAuth';
 import {useNavigation} from '@react-navigation/native';
@@ -34,6 +34,8 @@ const Form = () => {
   const {register} = useAuth();
   const [location, setLocation] = useState('');
   const navigation = useNavigation();
+  const [isLoading, setIsLoading] = useState(false);
+
   const [showPassword, setShowPassword] = useState(false);
 
   const initialValues: ILoginForm = {
@@ -54,6 +56,7 @@ const Form = () => {
       return;
     }
 
+    setIsLoading(true);
     const {phoneNumber, password, name} = values;
 
     try {
@@ -64,12 +67,14 @@ const Form = () => {
         location,
       );
 
+      setIsLoading(false);
       if (isRegistered) {
         // @ts-ignore
         navigation.navigate('Login');
       }
     } catch (e) {
       console.log(e);
+      setIsLoading(false);
     }
   };
 
@@ -185,7 +190,11 @@ const Form = () => {
             : styles.buttonPrimaryDisabled
         }
         onPress={() => handleRegister(formik.values)}>
-        <Text style={styles.buttonText}>Register</Text>
+        {isLoading ? (
+          <ActivityIndicator size={40} color="white" />
+        ) : (
+          <Text style={styles.buttonText}>Login</Text>
+        )}
       </TouchableOpacity>
     </>
   );

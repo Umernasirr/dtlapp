@@ -5,7 +5,7 @@ import {ILoginForm} from '../types';
 import {useFormik} from 'formik';
 import * as Yup from 'yup';
 import FeatherIcon from 'react-native-vector-icons/Feather';
-import {TextInput} from 'react-native-paper';
+import {TextInput, ActivityIndicator} from 'react-native-paper';
 import {Colors} from '../../../utils/theme';
 import useAuth from '../../../hooks/useAuth/useAuth';
 import {StackActions, useNavigation} from '@react-navigation/native';
@@ -23,6 +23,8 @@ const Form = () => {
   const {login} = useAuth();
   const navigation = useNavigation();
   const [showPassword, setShowPassword] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+
   const initialValues: ILoginForm = {
     password: '',
     phoneNumber: '',
@@ -41,16 +43,20 @@ const Form = () => {
       return;
     }
 
+    setIsLoading(true);
+
     const {phoneNumber, password} = values;
 
     try {
       const isLoggedIn = await login(phoneNumber, password);
 
+      setIsLoading(false);
       if (isLoggedIn) {
         navigation.dispatch(StackActions.replace('App'));
       }
     } catch (e) {
       console.log(e);
+      setIsLoading(false);
     }
   };
 
@@ -115,7 +121,11 @@ const Form = () => {
             : styles.buttonPrimaryDisabled
         }
         onPress={() => handleLogin(formik.values)}>
-        <Text style={styles.buttonText}>Login</Text>
+        {isLoading ? (
+          <ActivityIndicator size={40} color="white" />
+        ) : (
+          <Text style={styles.buttonText}>Login</Text>
+        )}
       </TouchableOpacity>
     </>
   );

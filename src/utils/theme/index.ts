@@ -35,8 +35,8 @@ const globalStyles = StyleSheet.create({
   },
 
   ustaadLogo: {
-    height: 80,
-    width: 100,
+    height: 100,
+    width: 160,
     resizeMode: 'contain',
     borderRadius: 40,
   },

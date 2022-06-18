@@ -26,9 +26,9 @@ const Dashboard = () => {
     let phoneNumber = '';
 
     if (Platform.OS === 'android') {
-      phoneNumber = 'tel:${1234567890}';
+      phoneNumber = 'tel:${+923432675848}';
     } else {
-      phoneNumber = 'telprompt:${1234567890}';
+      phoneNumber = 'telprompt:${+923432675848}';
     }
 
     Linking.openURL(phoneNumber);
@@ -88,7 +88,9 @@ const Dashboard = () => {
       {activeProfile?.balance && activeProfile.balance > 0 && (
         <View style={styles.buttonWrapper}>
           <TouchableRipple style={styles.buttonWhite} onPress={() => getPaid()}>
-            <Text style={styles.buttonWhiteText}>Get Paid</Text>
+            <Text style={styles.buttonWhiteText}>
+              <FeatherIcon name="phone" size={20} /> Get Paid
+            </Text>
           </TouchableRipple>
         </View>
       )}

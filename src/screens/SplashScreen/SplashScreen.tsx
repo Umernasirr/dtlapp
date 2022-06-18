@@ -1,4 +1,4 @@
-import {Image, StyleSheet, Text} from 'react-native';
+import {Image, StyleSheet} from 'react-native';
 import React, {useEffect} from 'react';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {Colors} from '../../utils/theme';
@@ -21,11 +21,11 @@ const SplashScreen = () => {
 
         setTimeout(() => {
           navigation.dispatch(StackActions.replace('App'));
-        }, 1000);
+        }, 100);
       } else {
         setTimeout(() => {
           navigation.dispatch(StackActions.replace('Auth'));
-        }, 1000);
+        }, 100);
       }
     };
 
@@ -40,9 +40,6 @@ const SplashScreen = () => {
         style={styles.logo}
       />
       <Spacer />
-
-      <Text style={styles.heading}>Ustaad</Text>
-      <Text style={styles.subHeading}>The subheading will go here</Text>
 
       <BigSpacer />
     </SafeAreaView>
@@ -68,8 +65,8 @@ const styles = StyleSheet.create({
     fontSize: 20,
   },
   logo: {
-    height: 150,
-    width: 150,
+    height: 160,
+    width: 260,
     padding: 20,
     resizeMode: 'stretch',
     borderRadius: 40,
