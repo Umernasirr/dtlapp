@@ -134,8 +134,8 @@ android {
         applicationId "com.ustaad"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 7
-        versionName "1.0.3"
+        versionCode 8
+        versionName "1.0.4"
         missingDimensionStrategy 'react-native-camera', 'general'
 
     }
