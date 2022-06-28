@@ -4,6 +4,7 @@ import Dashboard from '../Dashboard/Dashboard';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {createMaterialBottomTabNavigator} from '@react-navigation/material-bottom-tabs';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 
 import {Colors} from '../../utils/theme';
@@ -13,6 +14,7 @@ import AvailCode from '../AvailCode';
 import Settings from '../Settings';
 import Clients from '../Clients';
 import SplashScreen from '../SplashScreen';
+import Marketing from '../Marketing';
 
 const AppNavigator = () => {
   const AuthTab = createNativeStackNavigator();
@@ -56,6 +58,20 @@ const AppNavigator = () => {
         options={{
           tabBarIcon: ({color}) => (
             <MaterialIcons color={color} size={25} name={'home'} />
+          ),
+        }}
+      />
+
+      <BottomTab.Screen
+        name="Marketing"
+        component={Marketing}
+        options={{
+          tabBarIcon: ({color}) => (
+            <MaterialCommunityIcons
+              color={color}
+              size={25}
+              name={'post-outline'}
+            />
           ),
         }}
       />

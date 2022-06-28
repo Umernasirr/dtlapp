@@ -11,14 +11,17 @@ import {useAppSelector} from '../../state';
 const Transactions = () => {
   const navigation = useNavigation();
   const {transactions} = useAppSelector(state => state.transactions);
+  const {activeClient} = useAppSelector(state => state.clients);
 
   return (
     <SafeAreaView style={globalStyles.container}>
       <Spacer />
-      <Image
-        source={require('../../../assets/images/dtl-logo.png')}
-        style={globalStyles.logo}
-      />
+      {activeClient?.name === 'DTL' && (
+        <Image
+          source={require('../../../assets/images/dtl-logo.png')}
+          style={globalStyles.logo}
+        />
+      )}
       <Spacer />
       <Text style={styles.transactionHeading}>Transaction History</Text>
       <Spacer />

@@ -31,7 +31,7 @@ const Login = () => {
       <Spacer />
 
       <TouchableRipple style={styles.buttonWhite} onPress={handleSignup}>
-        <Text>Sign Up</Text>
+        <Text>Create Account</Text>
       </TouchableRipple>
     </SafeAreaView>
   );

@@ -10,20 +10,13 @@ const Signup = () => {
   const navigation = useNavigation();
   return (
     <SafeAreaView style={styles.authContainer}>
-      <Text style={styles.heading}>Signup</Text>
+      <Text style={styles.heading}>Create Account</Text>
 
       <Spacer />
 
       <Form />
 
       <Spacer />
-
-      <TouchableRipple
-        style={styles.buttonWhite}
-        // @ts-ignore
-        onPress={() => navigation.navigate('Login')}>
-        <Text>Back to Login</Text>
-      </TouchableRipple>
     </SafeAreaView>
   );
 };

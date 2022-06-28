@@ -19,6 +19,8 @@ const Dashboard = () => {
   const {user} = useAppSelector(state => state.user);
   const {transactions} = useAppSelector(state => state.transactions);
   const {activeProfile} = useAppSelector(state => state.profiles);
+  const {activeClient} = useAppSelector(state => state.clients);
+
   const {getTransactions} = useTransaction();
 
   const dispatch = useAppDispatch();
@@ -51,10 +53,12 @@ const Dashboard = () => {
   return (
     <SafeAreaView style={globalStyles.container}>
       <Spacer />
-      <Image
-        source={require('../../../assets/images/dtl-logo.png')}
-        style={globalStyles.logo}
-      />
+      {activeClient?.name === 'DTL' && (
+        <Image
+          source={require('../../../assets/images/dtl-logo.png')}
+          style={globalStyles.logo}
+        />
+      )}
       <Spacer />
 
       <Text style={styles.dashboardName}>
@@ -101,7 +105,7 @@ const Dashboard = () => {
             }
           }}>
           <Text style={styles.buttonWhiteText}>
-            <FeatherIcon name="phone" size={20} /> <Text>Get Paid</Text>
+            <FeatherIcon name="phone" size={20} /> <Text>Pay Me</Text>
           </Text>
         </TouchableRipple>
       </View>

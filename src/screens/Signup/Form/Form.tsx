@@ -21,36 +21,61 @@ import useAuth from '../../../hooks/useAuth/useAuth';
 import {useNavigation} from '@react-navigation/native';
 // import Geocoder from 'react-native-geocoding';
 import Geolocation from '@react-native-community/geolocation';
-import DropDown from 'react-native-paper-dropdown';
+import {Picker} from '@react-native-picker/picker';
+// @ts-ignore
 
 const LoginSchema = Yup.object().shape({
   phoneNumber: Yup.string()
     .max(11, 'Phone Number can not be longer than 11 characters')
-    .required('Phone Number is required'),
+    .required('Phone Number is required')
+    .matches(
+      /^((\+92)?(0092)?(92)?(0)?)(3)([0-9]{9})$/,
+      'Phone Number is not valid',
+    ),
   name: Yup.string().required('Name is required'),
   password: Yup.string()
     .min(2, 'Password must be longer than 2 characters')
     .required('Password is required'),
+  shopName: Yup.string().required('Shop Name is required'),
+  shopAddress: Yup.string().required('Shop Address is required'),
   city: Yup.string().required('City is required'),
-  shopNo: Yup.string().required('Shop Number is required'),
 });
+
+const categoryList = [
+  {
+    id: 'Motorcycle Mechanic',
+    title: 'Motorcycle Mechanic',
+  },
+  {
+    id: 'Rikshaw Mechanic',
+    title: 'Rikshaw Mechanicale',
+  },
+  {
+    id: 'Car/SUV Mechanic',
+    title: 'Car/SUV Mechanic',
+  },
+  {
+    id: 'Other',
+    title: 'Other',
+  },
+];
 
 const Form = () => {
   const {register} = useAuth();
   const [location, setLocation] = useState('');
-  const [mechanic, setMechanic] = useState('');
+  const [mechanic, setMechanic] = useState(categoryList[0].title ?? '');
 
   const navigation = useNavigation();
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-  const [showDropDown, setShowDropDown] = useState(false);
 
   const initialValues: ILoginForm = {
     password: '',
     phoneNumber: '',
     name: '',
     email: '',
-    shopNo: '',
+    shopName: '',
+    shopAddress: '',
     city: '',
   };
 
@@ -60,24 +85,6 @@ const Form = () => {
 
     validationSchema: LoginSchema,
   });
-  const categoryList = [
-    {
-      label: 'Motorcycle Mechanic',
-      value: 'Motorcycle Mechanic',
-    },
-    {
-      label: 'Rikshaw Mechanic',
-      value: 'femRikshaw Mechanicale',
-    },
-    {
-      label: 'Car/SUV Mechanic',
-      value: 'Car/SUV Mechanic',
-    },
-    {
-      label: 'Other',
-      value: 'other',
-    },
-  ];
 
   const handleRegister = async (values: ILoginForm) => {
     if (!formik.isValid) {
@@ -85,7 +92,8 @@ const Form = () => {
     }
 
     setIsLoading(true);
-    const {phoneNumber, password, name, city, email, shopNo} = values;
+    const {phoneNumber, password, name, email, shopName, shopAddress, city} =
+      values;
 
     try {
       const isRegistered = await register(
@@ -94,7 +102,8 @@ const Form = () => {
         name,
         city,
         email,
-        shopNo,
+        shopAddress,
+        shopName,
         location,
         mechanic,
       );
@@ -105,7 +114,8 @@ const Form = () => {
         navigation.navigate('Login');
       }
     } catch (e) {
-      console.log(e);
+      // @ts-ignore
+      console.log(e.message);
       setIsLoading(false);
     }
   };
@@ -154,6 +164,7 @@ const Form = () => {
             keyboardType="number-pad"
             style={styles.input}
             placeholder="Phone Number - 03XXXXXXXXX"
+            maxLength={11}
           />
 
           <FeatherIcon
@@ -168,9 +179,7 @@ const Form = () => {
         ) : (
           <View style={styles.noErrorText} />
         )}
-
         <Spacer />
-
         <View style={styles.inputWrapper}>
           <TextInput
             defaultValue={formik.values.name}
@@ -185,15 +194,12 @@ const Form = () => {
             style={styles.inputAdornment}
           />
         </View>
-
         {formik.errors.name ? (
           <Text style={styles.errorText}>{formik.errors.name}</Text>
         ) : (
           <View style={styles.noErrorText} />
         )}
-
         <Spacer />
-
         <View style={styles.inputWrapper}>
           <TextInput
             defaultValue={formik.values.password}
@@ -209,21 +215,18 @@ const Form = () => {
             onPress={() => setShowPassword(!showPassword)}
           />
         </View>
-
         {formik.errors.password ? (
           <Text style={styles.errorText}>{formik.errors.password}</Text>
         ) : (
           <View style={styles.noErrorText} />
         )}
-
         <Spacer />
-
         <View style={styles.inputWrapper}>
           <TextInput
-            defaultValue={formik.values.shopNo}
-            onChangeText={formik.handleChange('shopNo')}
+            defaultValue={formik.values.shopName}
+            onChangeText={formik.handleChange('shopName')}
             style={styles.input}
-            placeholder="Shop Number"
+            placeholder="Shop Name"
           />
           <MaterialCommunityIcons
             name="store-outline"
@@ -231,14 +234,31 @@ const Form = () => {
             style={styles.inputAdornment}
           />
         </View>
-        {formik.errors.shopNo ? (
-          <Text style={styles.errorText}>{formik.errors.shopNo}</Text>
+        {formik.errors.shopName ? (
+          <Text style={styles.errorText}>{formik.errors.shopName}</Text>
         ) : (
           <View style={styles.noErrorText} />
         )}
-
         <Spacer />
-
+        <View style={styles.inputWrapper}>
+          <TextInput
+            defaultValue={formik.values.shopAddress}
+            onChangeText={formik.handleChange('shopAddress')}
+            style={styles.input}
+            placeholder="Shop Address"
+          />
+          <MaterialCommunityIcons
+            name="store-outline"
+            size={20}
+            style={styles.inputAdornment}
+          />
+        </View>
+        {formik.errors.shopAddress ? (
+          <Text style={styles.errorText}>{formik.errors.shopAddress}</Text>
+        ) : (
+          <View style={styles.noErrorText} />
+        )}
+        <Spacer />
         <View style={styles.inputWrapper}>
           <TextInput
             defaultValue={formik.values.city}
@@ -252,6 +272,7 @@ const Form = () => {
             style={styles.inputAdornment}
           />
         </View>
+
         {formik.errors.city ? (
           <Text style={styles.errorText}>{formik.errors.city}</Text>
         ) : (
@@ -259,28 +280,29 @@ const Form = () => {
         )}
 
         <Spacer />
-
-        <View style={styles.dropdownWrapper}>
-          <DropDown
-            label={'Category'}
-            mode={'outlined'}
-            visible={showDropDown}
-            showDropDown={() => setShowDropDown(true)}
-            onDismiss={() => setShowDropDown(false)}
-            value={mechanic}
-            setValue={setMechanic}
-            list={categoryList}
-          />
+        <View style={styles.inputWrapper}>
+          <Picker
+            style={styles.input}
+            selectedValue={mechanic}
+            onValueChange={itemValue => setMechanic(itemValue)}>
+            {categoryList.map(item => (
+              <Picker.Item
+                key={item.id}
+                label={item.title}
+                value={item.title}
+              />
+            ))}
+          </Picker>
         </View>
         <Spacer />
 
+        <Spacer />
         <View style={styles.inputWrapper}>
           <TextInput
             defaultValue={formik.values.email}
             onChangeText={formik.handleChange('email')}
             style={styles.input}
             placeholder="Email (Optional)"
-            secureTextEntry={!showPassword}
           />
           <MaterialCommunityIcons
             name="email-outline"
@@ -288,42 +310,39 @@ const Form = () => {
             style={styles.inputAdornment}
           />
         </View>
-
         {formik.errors.email ? (
           <Text style={styles.errorText}>{formik.errors.email}</Text>
         ) : (
           <View style={styles.noErrorText} />
         )}
-
         <Spacer />
+        <TouchableOpacity
+          disabled={
+            formik.values.phoneNumber === '' ||
+            formik.values.password === '' ||
+            formik.values.name === '' ||
+            formik.values.shopName === '' ||
+            formik.values.city === '' ||
+            mechanic === ''
+          }
+          style={
+            formik.values.phoneNumber !== '' &&
+            formik.values.password !== '' &&
+            formik.values.name !== '' &&
+            formik.values.shopName !== '' &&
+            formik.values.city !== '' &&
+            mechanic !== ''
+              ? styles.buttonPrimary
+              : styles.buttonPrimaryDisabled
+          }
+          onPress={() => handleRegister(formik.values)}>
+          {isLoading ? (
+            <ActivityIndicator size={40} color="white" />
+          ) : (
+            <Text style={styles.buttonText}>Create Account</Text>
+          )}
+        </TouchableOpacity>
       </ScrollView>
-
-      <TouchableOpacity
-        disabled={
-          formik.values.phoneNumber === '' ||
-          formik.values.password === '' ||
-          formik.values.name === '' ||
-          formik.values.shopNo === '' ||
-          formik.values.city === '' ||
-          mechanic === ''
-        }
-        style={
-          formik.values.phoneNumber !== '' &&
-          formik.values.password !== '' &&
-          formik.values.name !== '' &&
-          formik.values.shopNo !== '' &&
-          formik.values.city !== '' &&
-          mechanic !== ''
-            ? styles.buttonPrimary
-            : styles.buttonPrimaryDisabled
-        }
-        onPress={() => handleRegister(formik.values)}>
-        {isLoading ? (
-          <ActivityIndicator size={40} color="white" />
-        ) : (
-          <Text style={styles.buttonText}>Signup</Text>
-        )}
-      </TouchableOpacity>
     </>
   );
 };
@@ -373,6 +392,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.primary,
     elevation: 4,
     paddingTop: 4,
+    marginVertical: 4,
   },
 
   buttonPrimaryDisabled: {
@@ -386,6 +406,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.gray,
     elevation: 4,
     paddingTop: 4,
+    marginVertical: 4,
   },
 
   errorText: {

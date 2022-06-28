@@ -18,6 +18,7 @@ const AvailCode = () => {
   const [isLoading, setIsLoading] = useState(false);
   const {user} = useAppSelector(state => state.user);
   const {activeProfile} = useAppSelector(state => state.profiles);
+  const {activeClient} = useAppSelector(state => state.clients);
   const dispatch = useAppDispatch();
   const {availCode} = useCode();
   const onSuccess = (e: any) => {
@@ -57,10 +58,12 @@ const AvailCode = () => {
   return (
     <SafeAreaView style={globalStyles.container}>
       <Spacer />
-      <Image
-        source={require('../../../assets/images/dtl-logo.png')}
-        style={globalStyles.logo}
-      />
+      {activeClient?.name === 'DTL' && (
+        <Image
+          source={require('../../../assets/images/dtl-logo.png')}
+          style={globalStyles.logo}
+        />
+      )}
       <Spacer />
 
       <Text style={styles.availCodeHeading}>Scan Code</Text>

@@ -83,7 +83,8 @@ const useAuth = () => {
     name: string,
     city: string,
     email: string,
-    shopNo: string,
+    shopName: string,
+    shopAddress: string,
     location: string,
     mechanic: string,
   ) => {
@@ -95,7 +96,8 @@ const useAuth = () => {
         location,
         city,
         email,
-        shopNo,
+        shopAddress,
+        shopName,
         mechanic,
       });
 

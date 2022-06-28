@@ -13,7 +13,11 @@ import {StackActions, useNavigation} from '@react-navigation/native';
 const LoginSchema = Yup.object().shape({
   phoneNumber: Yup.string()
     .max(11, 'Phone Number can not be longer than 11 characters')
-    .required('Phone Number is required'),
+    .required('Phone Number is required')
+    .matches(
+      /^((\+92)?(0092)?(92)?(0)?)(3)([0-9]{9})$/,
+      'Phone Number is not valid',
+    ),
   password: Yup.string()
     .min(2, 'Password must be longer than 2 characters')
     .required('Password is required'),

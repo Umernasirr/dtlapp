@@ -21,10 +21,12 @@ const ClientListItem: React.FC<IProps> = ({item, index, handleClick}) => {
           {item.name}
         </Text>
 
-        <Image
-          source={require('../../../../../assets/images/dtl-logo.png')}
-          style={styles.logo}
-        />
+        {item.name === 'DTL' && (
+          <Image
+            source={require('../../../../../assets/images/dtl-logo.png')}
+            style={styles.logo}
+          />
+        )}
       </View>
     </TouchableRipple>
   );

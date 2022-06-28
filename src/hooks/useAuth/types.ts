@@ -6,7 +6,8 @@ export interface IUser {
   location: string;
   city: string;
   email: string;
-  shopNo: string;
+  shopName: string;
+  shopAddress: string;
   mechanic: string;
   role: UserRole;
 }

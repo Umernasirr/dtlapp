@@ -19,7 +19,8 @@ const getInitialState = (): IUserState => {
       email: '',
       location: '',
       mechanic: '',
-      shopNo: '',
+      shopName: '',
+      shopAddress: '',
     },
     isLoggedIn: false,
   };

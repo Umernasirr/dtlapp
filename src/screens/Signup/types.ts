@@ -4,5 +4,6 @@ export interface ILoginForm {
   name: string;
   email: string;
   city: string;
-  shopNo: string;
+  shopName: string;
+  shopAddress: string;
 }

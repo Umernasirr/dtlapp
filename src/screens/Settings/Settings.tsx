@@ -14,6 +14,7 @@ const Settings = () => {
   const {logout} = useAuth();
   const navigation = useNavigation();
   const {user} = useAppSelector(state => state.user);
+  const {activeClient} = useAppSelector(state => state.clients);
 
   const contactWhatsapp = () => {
     try {
@@ -53,10 +54,12 @@ const Settings = () => {
   return (
     <SafeAreaView style={globalStyles.container}>
       <Spacer />
-      <Image
-        source={require('../../../assets/images/dtl-logo.png')}
-        style={globalStyles.logo}
-      />
+      {activeClient?.name === 'DTL' && (
+        <Image
+          source={require('../../../assets/images/dtl-logo.png')}
+          style={globalStyles.logo}
+        />
+      )}
       <Spacer />
 
       <Text style={styles.heading}>Settings</Text>
