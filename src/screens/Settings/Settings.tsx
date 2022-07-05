@@ -1,4 +1,4 @@
-import {StyleSheet, Text, Image, View, Platform, Linking} from 'react-native';
+import {StyleSheet, Text, Image, View, Linking} from 'react-native';
 import React from 'react';
 import Spacer from '../../components/Spacer';
 import {Colors, globalStyles} from '../../utils/theme';
@@ -31,22 +31,6 @@ const Settings = () => {
     }
   };
 
-  const contactPhone = () => {
-    try {
-      let phoneNumber = '';
-
-      if (Platform.OS === 'android') {
-        phoneNumber = 'tel:${+923432675848}';
-      } else {
-        phoneNumber = 'telprompt:${+923432675848}';
-      }
-
-      Linking.openURL(phoneNumber);
-    } catch (e) {
-      console.log('Settings', e);
-    }
-  };
-
   const logoutFn = () => {
     logout();
     navigation.dispatch(StackActions.replace('Auth'));
@@ -76,9 +60,9 @@ const Settings = () => {
 
       <BigSpacer />
 
-      <TouchableRipple style={styles.whatsappRow} onPress={contactPhone}>
+      <TouchableRipple style={styles.whatsappRow}>
         <>
-          <Text style={styles.whatsappText}>Contact us on Phone</Text>
+          <Text style={styles.whatsappText}>Find A Dealer - COMING SOON</Text>
           <Image
             source={require('../../../assets/images/phone.png')}
             style={styles.whatsappIcon}

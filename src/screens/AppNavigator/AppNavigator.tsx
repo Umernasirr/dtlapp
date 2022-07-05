@@ -66,6 +66,7 @@ const AppNavigator = () => {
         name="Marketing"
         component={Marketing}
         options={{
+          tabBarLabel: 'Offers',
           tabBarIcon: ({color}) => (
             <MaterialCommunityIcons
               color={color}
