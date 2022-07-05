@@ -81,7 +81,7 @@ const AppNavigator = () => {
         component={AvailCode}
         options={{
           tabBarIcon: ({color}) => (
-            <AntDesign color={color} size={25} name={'barcode'} />
+            <AntDesign color={color} size={25} name={'qrcode'} />
           ),
         }}
       />

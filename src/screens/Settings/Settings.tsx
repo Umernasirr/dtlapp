@@ -46,7 +46,7 @@ const Settings = () => {
       )}
       <Spacer />
 
-      <Text style={styles.heading}>Settings</Text>
+      <Text style={styles.heading}>Contact Info</Text>
       <BigSpacer />
       <TouchableRipple style={styles.whatsappRow} onPress={contactWhatsapp}>
         <>
