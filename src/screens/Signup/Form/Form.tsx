@@ -121,30 +121,42 @@ const Form = () => {
   };
 
   useEffect(() => {
-    if (!PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION) {
-      Geolocation.requestAuthorization();
-      Geolocation.getCurrentPosition(
-        pos => {
-          const loc = `${pos.coords.latitude},${pos.coords.longitude}`;
-          setLocation(loc);
-        },
-        error => {
-          console.log(error, 'error');
-        },
-        {enableHighAccuracy: true, timeout: 15000, maximumAge: 10000},
+    const getLocation = async () => {
+      const permissionGiven = PermissionsAndroid.check(
+        PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
       );
-    } else {
-      Geolocation.getCurrentPosition(
-        pos => {
-          const loc = `${pos.coords.latitude},${pos.coords.longitude}`;
-          setLocation(loc);
-        },
-        error => {
-          console.log(error, 'error');
-        },
-        {enableHighAccuracy: true, timeout: 15000, maximumAge: 10000},
-      );
-    }
+      if (!permissionGiven) {
+        const granted = await PermissionsAndroid.request(
+          PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+        );
+        if (granted !== PermissionsAndroid.RESULTS.GRANTED) {
+          return;
+        }
+
+        Geolocation.getCurrentPosition(
+          pos => {
+            const loc = `${pos.coords.latitude},${pos.coords.longitude}`;
+            setLocation(loc);
+          },
+          error => {
+            console.log(error);
+          },
+          {enableHighAccuracy: false, timeout: 3600000, maximumAge: 10000},
+        );
+      } else {
+        Geolocation.getCurrentPosition(
+          pos => {
+            const loc = `${pos.coords.latitude},${pos.coords.longitude}`;
+            setLocation(loc);
+          },
+          error => {
+            console.log(error);
+          },
+          {enableHighAccuracy: false, timeout: 3600000, maximumAge: 10000},
+        );
+      }
+    };
+    getLocation();
   }, []);
 
   return (
