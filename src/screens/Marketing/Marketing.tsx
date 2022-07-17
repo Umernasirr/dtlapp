@@ -209,7 +209,7 @@ const Marketing = () => {
             marginHorizontal: 12,
           }}>
           <Image
-            source={require('../../../assets/images/dtl-banner.png')}
+            source={require('../../../assets/images/dtl-banner.jpeg')}
             style={{
               width: '100%',
               maxHeight: '30%',
