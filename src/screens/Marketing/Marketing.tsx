@@ -192,14 +192,6 @@ const Marketing = () => {
     <SafeAreaView style={globalStyles.container}>
       <BigSpacer />
 
-      {activeClient?.name === 'DTL' && (
-        <Image
-          source={require('../../../assets/images/dtl-logo.png')}
-          style={globalStyles.logo}
-        />
-      )}
-      <Spacer />
-
       {activeClient?.name !== 'DTL' && (
         <Text style={styles.dashboardName}>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut vitae
@@ -216,6 +208,15 @@ const Marketing = () => {
           style={{
             marginHorizontal: 12,
           }}>
+          <Image
+            source={require('../../../assets/images/dtl-banner.png')}
+            style={{
+              width: '100%',
+              maxHeight: '30%',
+              resizeMode: 'cover',
+            }}
+          />
+          <Spacer />
           <Text style={styles.aboutText}>About Us:</Text>
           <Text>
             DTL (Dynamic technology Leader) was established in 2013 with the aim

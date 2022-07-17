@@ -27,6 +27,13 @@ const ClientListItem: React.FC<IProps> = ({item, index, handleClick}) => {
             style={styles.logo}
           />
         )}
+
+        {item.name === 'Dreamz' && (
+          <Image
+            source={require('../../../../../assets/images/dreams-logo.png')}
+            style={styles.logo}
+          />
+        )}
       </View>
     </TouchableRipple>
   );
@@ -51,8 +58,8 @@ const styles = StyleSheet.create({
   },
 
   logo: {
-    height: 60,
-    width: 60,
+    height: 40,
+    width: 40,
     resizeMode: 'contain',
   },
 });

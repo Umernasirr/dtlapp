@@ -15,6 +15,9 @@ import FeatherIcon from 'react-native-vector-icons/Feather';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
+// @ts-ignore
+import SweetAlert from 'react-native-sweet-alert';
+
 import {ActivityIndicator, TextInput} from 'react-native-paper';
 import {Colors} from '../../../utils/theme';
 import useAuth from '../../../hooks/useAuth/useAuth';
@@ -102,8 +105,8 @@ const Form = () => {
         name,
         city,
         email,
-        shopAddress,
         shopName,
+        shopAddress,
         location,
         mechanic,
       );
@@ -139,6 +142,7 @@ const Form = () => {
             setLocation(loc);
           },
           error => {
+            console.log('ayyy o');
             console.log(error);
           },
           {enableHighAccuracy: false, timeout: 3600000, maximumAge: 10000},
@@ -150,6 +154,15 @@ const Form = () => {
             setLocation(loc);
           },
           error => {
+            SweetAlert.showAlertWithOptions({
+              title: 'Location could not be fetched',
+              subTitle: 'Please allow access to location to signup',
+              style: 'error',
+            });
+
+            // @ts-ignore
+            navigation.navigate('Login');
+
             console.log(error);
           },
           {enableHighAccuracy: false, timeout: 3600000, maximumAge: 10000},
@@ -157,7 +170,7 @@ const Form = () => {
       }
     };
     getLocation();
-  }, []);
+  }, [navigation]);
 
   return (
     <>

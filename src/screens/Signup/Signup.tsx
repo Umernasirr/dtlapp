@@ -3,11 +3,8 @@ import React from 'react';
 import {Colors} from '../../utils/theme';
 import Spacer from '../../components/Spacer';
 import Form from './Form/Form';
-import {TouchableRipple} from 'react-native-paper';
-import {useNavigation} from '@react-navigation/native';
 
 const Signup = () => {
-  const navigation = useNavigation();
   return (
     <SafeAreaView style={styles.authContainer}>
       <Text style={styles.heading}>Create Account</Text>
