@@ -34,6 +34,12 @@ const ClientListItem: React.FC<IProps> = ({item, index, handleClick}) => {
             style={styles.logo}
           />
         )}
+        {item.name === 'DTL Pro' && (
+          <Image
+            source={require('../../../../../assets/images/dtl-pro-logo.png')}
+            style={styles.logo}
+          />
+        )}
       </View>
     </TouchableRipple>
   );

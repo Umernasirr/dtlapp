@@ -1,24 +1,23 @@
-import {Image, StyleSheet} from 'react-native';
+import {Image, StyleSheet, TouchableOpacity, View} from 'react-native';
 import React, {useState} from 'react';
-import Spacer from '../../components/Spacer';
-import {Colors, globalStyles} from '../../utils/theme';
+import {Colors} from '../../utils/theme';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {ActivityIndicator, Text} from 'react-native-paper';
 
 import QRCodeScanner from 'react-native-qrcode-scanner';
 import {RNCamera} from 'react-native-camera';
-import BigSpacer from '../../components/BigSpacer';
 import {useAppDispatch, useAppSelector} from '../../state';
 import useCode from '../../hooks/useCode';
 import axios from 'axios';
 import {BASE_URL} from '../../utils/theme/constants';
 import {setTransactions} from '../../state/transactionReducer';
+import BigSpacer from '../../components/BigSpacer';
 
 const AvailCode = () => {
   const [isLoading, setIsLoading] = useState(false);
+  const [isFlash, setIsFlash] = useState(false);
   const {user} = useAppSelector(state => state.user);
   const {activeProfile} = useAppSelector(state => state.profiles);
-  const {activeClient} = useAppSelector(state => state.clients);
   const dispatch = useAppDispatch();
   const {availCode} = useCode();
   const onSuccess = (e: any) => {
@@ -56,39 +55,48 @@ const AvailCode = () => {
   };
 
   return (
-    <SafeAreaView style={globalStyles.container}>
-      <Spacer />
-      {activeClient?.name === 'DTL' && (
-        <Image
-          source={require('../../../assets/images/dtl-logo.png')}
-          style={globalStyles.logo}
-        />
-      )}
-      <Spacer />
-
-      <Text style={styles.availCodeHeading}>Scan Code</Text>
-      <Spacer />
-
+    <SafeAreaView style={styles.container}>
       {!isLoading ? (
         <QRCodeScanner
-          cameraContainerStyle={styles.qrContainer}
           fadeIn
-          containerStyle={styles.qrContainer}
           onRead={onSuccess}
-          flashMode={RNCamera.Constants.FlashMode.torch}
+          cameraStyle={styles.qrCameraContainer}
+          flashMode={
+            isFlash
+              ? RNCamera.Constants.FlashMode.torch
+              : RNCamera.Constants.FlashMode.off
+          }
+          bottomViewStyle={{
+            position: 'absolute',
+            height: '100%',
+          }}
           bottomContent={
             <>
-              <Image
-                source={require('../../../assets/images/marker.png')}
-                style={styles.marker}
-              />
-              <Text style={styles.qrText}>Point at QR code to Scan</Text>
+              <View
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}>
+                <Image
+                  source={require('../../../assets/images/marker.png')}
+                  style={styles.marker}
+                />
+                <BigSpacer />
+              </View>
+
+              <TouchableOpacity
+                style={styles.qrText}
+                onPress={() => {
+                  setIsFlash(!isFlash);
+                }}>
+                <Text>Turn Flash {isFlash ? 'off' : 'on'}</Text>
+              </TouchableOpacity>
             </>
           }
         />
       ) : (
         <>
-          <BigSpacer />
           <ActivityIndicator size={40} />
         </>
       )}
@@ -124,15 +132,23 @@ const styles = StyleSheet.create({
     marginHorizontal: '10%',
     backgroundColor: Colors.primary,
   },
-  qrContainer: {
-    height: '70%',
+  qrContainer: {},
+  qrCameraContainer: {
+    height: '100%',
+  },
+  container: {
+    flex: 1,
+    backgroundColor: Colors.white,
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: '100%',
   },
   qrText: {
     backgroundColor: Colors.white,
     padding: 12,
-    opacity: 0.8,
+    opacity: 0.6,
     borderRadius: 12,
-    position: 'absolute',
+    zIndex: 999,
   },
   centeredText: {
     textAlign: 'center',
@@ -143,7 +159,6 @@ const styles = StyleSheet.create({
   marker: {
     width: 200,
     height: 200,
-    marginBottom: '150%',
     opacity: 0.6,
   },
 });
