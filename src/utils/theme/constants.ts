@@ -1,1 +1,1 @@
-export const BASE_URL = 'http://dtl-app.herokuapp.com';
+export const BASE_URL = 'https://dtl-backend.herokuapp.com';
